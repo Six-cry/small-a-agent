@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "files": 197,
+  "python_files": 136,
+  "bytes": 1695607,
+  "local_credential_values_checked": 11,
+  "errors": [],
+  "scope": "Source inputs and configured credential matches; no real model, OCR or retrieval evaluation"
+}

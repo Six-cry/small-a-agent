@@ -1,0 +1,4 @@
+interface:
+  display_name: "小A 旅行规划"
+  short_description: "先确认关键信息再结合本地知识与联网来源进行可靠旅行规划"
+  default_prompt: "Use $travel-planner-v2 to create a verified trip plan without inventing missing user details."

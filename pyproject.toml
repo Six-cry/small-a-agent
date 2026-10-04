@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+testpaths = ["aa_my_agent/test", "aa_my_agent/tests", "tests"]
+pythonpath = ["."]
+addopts = "-ra"

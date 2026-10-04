@@ -1,0 +1,32 @@
+name: Offline tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            aa_my_agent/requirements-dev.txt
+      - name: Check release inputs
+        run: python publication/check_release.py
+      - name: Install test dependencies
+        run: python -m pip install -r aa_my_agent/requirements-dev.txt
+      - name: Run offline suite
+        run: python -m pytest -q

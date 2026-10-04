@@ -1,0 +1,28 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Python runtime files
+__pycache__/
+*.py[codz]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Agent runtime state. Keep only the explanatory README in Git.
+storage/*
+!storage/README.md
+
+# Local knowledge documents may be private or large. The data README remains
+# tracked because it lives outside this directory.
+rag/data/knowledge/
+eval/rag/storage/
+mcp/servers.json
+*.log
+*-workspace/
+
+# Local helper/runtime directories
+.workbuddy/
+-p/
+mcp/flyai_cli/node_modules/

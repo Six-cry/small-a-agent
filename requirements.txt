@@ -1,0 +1,17 @@
+# Direct dependencies from the existing Python 3.11 verification environment.
+# Optional PDF and reranker dependencies are listed beside aa_my_agent.
+anthropic==0.109.1
+python-dotenv==1.0.1
+mcp==2.2.0
+requests==2.33.1
+pywin32==311; sys_platform == "win32"
+tzdata==2025.2; sys_platform == "win32"
+PyYAML==6.0.3
+langchain-core==1.4.9
+langchain-community==0.4.2
+langchain-text-splitters==1.1.2
+langchain-openai==1.3.5
+langchain-chroma==1.1.0
+chromadb==1.5.9
+pypdf==6.10.2
+docx2txt==0.9

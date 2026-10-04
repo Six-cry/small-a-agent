@@ -1,0 +1,170 @@
+{
+  "name": "aa_my_agent RAG 最小测试基线",
+  "version": 1,
+  "instructions": "已根据原始PDF核对并开启11题。scan-01需添加真实扫描版PDF后再填写和开启。pages使用阅读器显示的人类页码，从1开始。",
+  "cases": [
+    {
+      "id": "text-01",
+      "enabled": true,
+      "category": "纯文字",
+      "question": "该系统如何实现网络资源、计算能力与业务需求之间的动态协同调度？",
+      "expected": {
+        "should_find": true,
+        "source": "智简内生6G无线网络编排系统技术探索与展望_张勤.pdf",
+        "pages": [1],
+        "keywords": ["内生人工智能", "意图驱动机制", "统一编排控制平台"]
+      },
+      "notes": "人工打开原文确认答案"
+    },
+    {
+      "id": "text-02",
+      "enabled": true,
+      "category": "纯文字",
+      "question": "北京哪些世界遗产共同构成宏大的历史景观？",
+      "expected": {
+        "should_find": true,
+        "source": "北京旅游攻略.pdf",
+        "pages": [3],
+        "keywords": ["故宫", "天坛", "颐和园", "明十三陵", "北京中轴线"],
+        "keyword_mode": "all"
+      },
+      "notes": "答案位于第3页“世界遗产密度极高”段落"
+    },
+    {
+      "id": "text-03",
+      "enabled": true,
+      "category": "纯文字",
+      "question": "为什么参观成都大熊猫繁育研究基地通常建议早到？",
+      "expected": {
+        "should_find": true,
+        "source": "成都旅游攻略.pdf",
+        "pages": [3],
+        "keywords": ["熊猫在凉爽时段更活跃"]
+      },
+      "notes": "答案位于第3页“大熊猫之城”段落"
+    },
+    {
+      "id": "text-04",
+      "enabled": true,
+      "category": "纯文字",
+      "question": "杭州西湖北线、西线和南线分别建议看哪些代表性景点？",
+      "expected": {
+        "should_find": true,
+        "source": "杭州旅游攻略.pdf",
+        "pages": [2],
+        "keywords": ["北线看断桥、孤山和历史人文", "西线看曲院风荷、杨公堤和植物景观", "南线看苏堤、雷峰塔与夕照"],
+        "keyword_mode": "all"
+      },
+      "notes": "答案位于第2页概述第二段"
+    },
+    {
+      "id": "text-05",
+      "enabled": true,
+      "category": "纯文字",
+      "question": "如果桂林行程加入龙脊梯田，时间和行李安排有什么建议？",
+      "expected": {
+        "should_find": true,
+        "source": "桂林旅游攻略.pdf",
+        "pages": [2],
+        "keywords": ["方向与阳朔相反", "至少增加一天", "合理规划行李"],
+        "keyword_mode": "all"
+      },
+      "notes": "答案位于第2页概述第二段"
+    },
+    {
+      "id": "table-01",
+      "enabled": true,
+      "category": "表格",
+      "question": "表1中，当源节点为2、目的节点为11时，基于跳数和基于排队时延的两种算法分别选择哪条路径？",
+      "expected": {
+        "should_find": true,
+        "source": "考虑排队时延的系统保护通信网络路由选择算法_刘川.pdf",
+        "pages": [4],
+        "keywords": ["2→3→4→7→11", "2→5→6→9→10→11"],
+        "keyword_mode": "all"
+      },
+      "notes": "答案位于第4页表1的2→11行"
+    },
+    {
+      "id": "table-02",
+      "enabled": true,
+      "category": "表格",
+      "question": "表3中，节点8的“需求响应”业务平均转发时延和丢包率分别是多少？",
+      "expected": {
+        "should_find": true,
+        "source": "Service Performance Deviation Awareness-Based Power Communication Network Routing Optimization Strategy.pdf",
+        "pages": [8],
+        "keywords": ["96.62", "5.47"],
+        "keyword_mode": "all"
+      },
+      "notes": "答案位于第8页表3的节点8—需求响应行"
+    },
+    {
+      "id": "image-01",
+      "enabled": true,
+      "category": "图片/流程图",
+      "question": "图2的网络拓扑中，节点7到节点11之间链路标注的传播时延和可用度分别是多少？",
+      "expected": {
+        "should_find": true,
+        "source": "考虑排队时延的系统保护通信网络路由选择算法_刘川.pdf",
+        "pages": [4],
+        "keywords": ["0.232", "0.992"],
+        "keyword_mode": "all"
+      },
+      "notes": "答案只标在第4页图2的7—11链路上；正文未逐条描述该链路"
+    },
+    {
+      "id": "image-02",
+      "enabled": true,
+      "category": "图片/流程图",
+      "question": "图3中，SDN控制平面框内列出的两个组成部分是什么？",
+      "expected": {
+        "should_find": true,
+        "source": "Service Performance Deviation Awareness-Based Power Communication Network Routing Optimization Strategy.pdf",
+        "pages": [5],
+        "keywords": ["虚拟队列积压", "历史决策经验"],
+        "keyword_mode": "all"
+      },
+      "notes": "答案位于第5页图3左侧的SDN控制平面框内"
+    },
+    {
+      "id": "scan-01",
+      "enabled": false,
+      "category": "扫描件/OCR",
+      "question": "【等待扫描件】询问一条只存在于扫描图像中的文字信息",
+      "expected": {
+        "should_find": true,
+        "source": "【添加真实扫描版PDF后填写文件名】",
+        "pages": [1],
+        "keywords": ["【添加真实扫描版PDF后填写答案关键词】"]
+      },
+      "notes": "真实扫描件仍未加入，所以本题暂不启用。已有 image-only 合成夹具验证 RapidOCR 技术链路，但不能代替真实扫描件质量评测。"
+    },
+    {
+      "id": "no-answer-01",
+      "enabled": true,
+      "category": "知识库无答案",
+      "question": "家用空调制冷剂不足时应该按照什么步骤检修和加注？",
+      "expected": {
+        "should_find": false,
+        "source": null,
+        "pages": [],
+        "keywords": []
+      },
+      "notes": "知识库不含家电维修资料，用于检查误召回"
+    },
+    {
+      "id": "no-answer-02",
+      "enabled": true,
+      "category": "知识库无答案",
+      "question": "制作法式可颂时黄油应该折叠几次，发酵温度是多少？",
+      "expected": {
+        "should_find": false,
+        "source": null,
+        "pages": [],
+        "keywords": []
+      },
+      "notes": "知识库不含烘焙资料，用于检查误召回"
+    }
+  ]
+}

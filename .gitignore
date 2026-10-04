@@ -1,0 +1,46 @@
+# Credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+/aa_my_agent/mcp/servers.json
+
+# Python / testing / local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+*.log
+
+# Runtime records, private knowledge and generated indexes
+/aa_my_agent/storage/*
+!/aa_my_agent/storage/README.md
+/aa_my_agent/rag/data/knowledge/
+/aa_my_agent/eval/rag/storage/
+/aa_my_agent/eval/rag/reports/*
+!/aa_my_agent/eval/rag/reports/README.md
+!/aa_my_agent/eval/rag/reports/baseline_before_upgrade.md
+!/aa_my_agent/eval/rag/reports/after_hybrid_bm25_rrf.md
+!/aa_my_agent/eval/rag/reports/after_image_parent_child_production.md
+!/aa_my_agent/eval/rag/reports/after_reranker_production.md
+!/aa_my_agent/eval/rag/reports/after_adjacent_context_production.md
+
+# Agent / Skill experiments and local tools
+.workbuddy/
+.memory/
+.tasks/
+.mailboxes/
+.worktrees/
+tmp/
+-p/
+*-workspace/
+node_modules/
+.DS_Store
+Thumbs.db

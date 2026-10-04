@@ -1,0 +1,5 @@
+-r ../requirements.txt
+
+# Structured PDF parser; model artifacts are downloaded separately on demand.
+docling==2.126.0
+openai==2.45.0

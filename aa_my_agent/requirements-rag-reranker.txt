@@ -1,0 +1,2 @@
+# Match the recorded real-model evaluation environment; missing models fall back.
+sentence-transformers==6.1.0

@@ -1,0 +1,169 @@
+{
+  "servers": {
+    "travel-demo": {
+      "enabled": true,
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "aa_my_agent.mcp_servers.travel_demo"
+      ],
+      "cwd": "../..",
+      "include_tools": [
+        "get_travel_mcp_status"
+      ]
+    },
+    "travel-map": {
+      "enabled": false,
+      "transport": "streamable_http",
+      "url": "https://replace-with-your-provider.example/mcp",
+      "token_env": "TRAVEL_MAP_MCP_TOKEN",
+      "exclude_tools": [
+        "query_weather"
+      ]
+    },
+    "amap": {
+      "enabled": false,
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--registry=https://registry.npmjs.org",
+        "@amap/amap-maps-mcp-server"
+      ],
+      "cwd": "../..",
+      "env_from": [
+        "AMAP_MAPS_API_KEY"
+      ],
+      "exclude_tools": [
+        "maps_weather",
+        "maps_ip_location"
+      ],
+      "read_only_tools": [
+        "maps_geo",
+        "maps_regeocode",
+        "maps_text_search",
+        "maps_around_search",
+        "maps_search_detail",
+        "maps_distance",
+        "maps_direction_walking",
+        "maps_direction_driving",
+        "maps_direction_transit_integrated",
+        "maps_bicycling"
+      ]
+    },
+    "hourly-weather": {
+      "enabled": false,
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "aa_my_agent.mcp_servers.hourly_weather"
+      ],
+      "cwd": "../..",
+      "include_tools": [
+        "get_hourly_forecast"
+      ]
+    },
+    "rail-12306": {
+      "enabled": false,
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "aa_my_agent.mcp_servers.rail_12306"
+      ],
+      "cwd": "../..",
+      "include_tools": [
+        "get_12306_official_lookup"
+      ]
+    },
+    "duffel-travel": {
+      "enabled": false,
+      "enable_when_env": [
+        "DUFFEL_ACCESS_TOKEN"
+      ],
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "aa_my_agent.mcp_servers.duffel_travel"
+      ],
+      "cwd": "../..",
+      "env_from": [
+        "DUFFEL_ACCESS_TOKEN"
+      ],
+      "include_tools": [
+        "search_flight_offers"
+      ]
+    },
+    "flyai-travel": {
+      "enabled": false,
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "aa_my_agent.mcp_servers.flyai_travel"
+      ],
+      "cwd": "../..",
+      "env_from": [
+        "FLYAI_API_KEY"
+      ],
+      "include_tools": [
+        "search_domestic_hotels",
+        "search_flight_offers"
+      ]
+    },
+    "google-calendar": {
+      "enabled": false,
+      "enable_when_env": [
+        "GOOGLE_CALENDAR_CLIENT_ID",
+        "GOOGLE_CALENDAR_CLIENT_SECRET",
+        "GOOGLE_CALENDAR_REFRESH_TOKEN"
+      ],
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "aa_my_agent.mcp_servers.google_calendar"
+      ],
+      "cwd": "../..",
+      "env_from": [
+        "GOOGLE_CALENDAR_CLIENT_ID",
+        "GOOGLE_CALENDAR_CLIENT_SECRET",
+        "GOOGLE_CALENDAR_REFRESH_TOKEN"
+      ],
+      "include_tools": [
+        "list_calendar_events",
+        "create_calendar_event"
+      ]
+    },
+    "dingtalk-calendar": {
+      "enabled": false,
+      "enable_when_env": [
+        "DINGTALK_CLIENT_ID",
+        "DINGTALK_CLIENT_SECRET",
+        "DINGTALK_CALENDAR_UNION_ID"
+      ],
+      "transport": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "aa_my_agent.mcp_servers.dingtalk_calendar"
+      ],
+      "cwd": "../..",
+      "env_from": [
+        "DINGTALK_CLIENT_ID",
+        "DINGTALK_CLIENT_SECRET",
+        "DINGTALK_CALENDAR_UNION_ID"
+      ],
+      "include_tools": [
+        "list_calendar_events",
+        "get_calendar_event",
+        "create_calendar_event",
+        "update_calendar_event",
+        "delete_calendar_event"
+      ]
+    }
+  }
+}
