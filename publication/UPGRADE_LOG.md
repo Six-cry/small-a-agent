@@ -64,3 +64,33 @@
 ### 剩余工作
 
 用户提交上传修复后核对 Windows/Linux 新一轮 Actions。Linux 本轮修复后尚未实测，不能由本地 Windows 通过推断；真实服务联调和 PDF 内容质量仍不属于本次依赖修复验证。
+
+## 记录 03：修复 Ubuntu 上的敏感路径识别（2026-10-04）
+
+### 问题
+
+修复依赖后的提交 cbb051a 已上传，第二轮 Actions 的 Windows 通过，Ubuntu 仍失败。
+
+### 原因
+
+Ubuntu 完整执行了 210 项测试，其中 209 项通过，唯一失败是 `aa_my_agent\.env` 的敏感路径识别。宿主系统的 Path 在 POSIX 上没有把反斜杠当作目录分隔符；这是工具策略的跨平台兼容问题，与上传或依赖安装无关。
+
+### 修改
+
+公开副本的敏感路径判断改为统一分隔符后使用 PurePosixPath；增加三组路径输入回归，并确认敏感 Shell 命令不会调用进程执行器。工具子系统记录详见 aa_my_agent/tools/UPGRADE_LOG.md 记录 03，保留原跨平台工作流和全部既有测试。
+
+### 验证方法
+
+读取 https://github.com/Six-cry/small-a-agent/actions/runs/37198926576 的 Windows/Ubuntu 日志，复现原有 POSIX 词法问题。用已隔离安装开发依赖的 Python 3.11.9 环境执行全部离线测试与发布输入检查。
+
+### 实际结果
+
+第二轮远端 Windows 为 210 passed、1 warning，6.08 秒；Ubuntu 为 209 passed、1 failed、1 warning，6.43 秒。修复前本地 POSIX 词法复现确认四类嵌套敏感路径漏判；修复后敏感路径拒绝、模板仍允许。新测试的导入位置错误已在本地纠正，最终 Windows 完整回归 **213 passed, 1 warning，10.16 秒**。本机没有 WSL Linux 发行版，未安装额外系统；本地结果不冒充远端 Linux 通过。发布输入检查结果见 release_check.json。
+
+### 当前状态
+
+代码已成功公开上传；自动测试用于验证提交，不是上传审核。此次兼容修复在公开副本中完成，待同步到本地 GitHub 仓库后由用户提交上传并核对新 CI。原工作目录的业务代码与正式知识索引未改变。
+
+### 剩余工作
+
+确认新一轮 Windows 和 Ubuntu 均通过；真实服务、PDF/OCR 内容质量和检索回答准确性仍需单独验证。

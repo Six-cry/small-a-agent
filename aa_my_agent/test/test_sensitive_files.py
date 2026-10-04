@@ -1,3 +1,7 @@
+from pathlib import PurePosixPath, PureWindowsPath
+
+import pytest
+
 from aa_my_agent.tools.definitions import (
     run_bash,
     run_edit,
@@ -38,6 +42,30 @@ def test_sensitive_path_policy_blocks_secrets_and_allows_templates():
         assert sensitive_path_reason(path) is None, path
 
 
+@pytest.mark.parametrize("path_type", [str, PurePosixPath, PureWindowsPath])
+def test_sensitive_path_policy_recognizes_windows_paths_on_any_host(path_type):
+    blocked = (
+        r"aa_my_agent\.env",
+        r"C:\project\.env.local",
+        r".ssh\id_rsa",
+        r".git\config",
+        r"config\credentials.json",
+        r"keys\private.pem",
+        r"config/.aws\credentials",
+    )
+    for path in blocked:
+        assert sensitive_path_reason(path_type(path)), path
+
+    allowed = (
+        r"aa_my_agent\.env.example",
+        r"C:\project\.env.local.template",
+        r"docs\credentials-guide.md",
+        r"certificates\public.crt",
+    )
+    for path in allowed:
+        assert sensitive_path_reason(path_type(path)) is None, path
+
+
 def test_file_tools_block_sensitive_paths_before_access():
     assert run_read("aa_my_agent/.env").startswith(
         "Error: Access to sensitive files is blocked"
@@ -71,7 +99,13 @@ def test_recursive_glob_hides_sensitive_matches(tmp_path, monkeypatch):
     assert key.name not in matches
 
 
-def test_shell_blocks_direct_sensitive_file_references_without_execution():
+def test_shell_blocks_direct_sensitive_file_references_without_execution(monkeypatch):
+    import aa_my_agent.tools.definitions as definitions
+
+    def reject_execution(*args, **kwargs):
+        raise AssertionError("Sensitive command reached the subprocess executor")
+
+    monkeypatch.setattr(definitions.subprocess, "run", reject_execution)
     commands = (
         r"type aa_my_agent\.env",
         r"Get-Content .env.local",

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 _SENSITIVE_DIRECTORIES = {
@@ -57,7 +57,8 @@ def _is_safe_env_template(filename: str) -> bool:
 
 def sensitive_path_reason(path: str | Path) -> str | None:
     """Return a stable policy reason when *path* names sensitive data."""
-    candidate = Path(path)
+    # Policy checks must recognize both path styles, independent of the host OS.
+    candidate = PurePosixPath(str(path).replace("\\", "/"))
     parts = tuple(part.casefold() for part in candidate.parts)
 
     if any(part in _SENSITIVE_DIRECTORIES for part in parts):
