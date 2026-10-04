@@ -106,6 +106,8 @@ python publication/check_release.py
 
 pytest 使用测试占位配置并阻止外部网络连接，不需要真实 API Key。测试范围包含小 a 的主循环、工具、恢复、权限、上下文、MCP 与 RAG 单元测试；不包含原教程的独立测试。GitHub Actions 在 Windows 和 Linux 的 Python 3.11 上运行同一套检查。
 
+开发依赖包含 `docling-core`，供结构化文档单元测试使用数据类型；不需要安装完整 Docling、OCR 或精排模型。实际解析 PDF 时仍需安装上面的多模态可选依赖。
+
 公开打包和本次验证结果见 [publication/UPGRADE_LOG.md](publication/UPGRADE_LOG.md)。该文件区分复用已有依赖的本地测试与干净环境安装验证；后者不能由前者替代。
 
 ## 评测与已知限制

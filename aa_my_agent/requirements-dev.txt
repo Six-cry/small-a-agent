@@ -1,2 +1,4 @@
 -r ../requirements.txt
 pytest==9.1.1
+# Structured document unit tests use Docling schemas, without PDF/OCR models.
+docling-core==2.96.0

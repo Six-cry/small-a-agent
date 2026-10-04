@@ -30,3 +30,37 @@
 ### 剩余工作
 
 干净环境依赖安装、Linux 运行和真实服务集成待后续 CI / 使用者环境验证。Top K 默认不一致、研究缓存误复用等功能问题继续保留并明确公开；本次完成公开副本打包，没有修复这些功能问题。
+
+## 记录 02：修复 GitHub Actions 遗漏的结构化文档测试依赖（2026-10-04）
+
+### 问题
+
+用户已将公开副本上传到 Six-cry/small-a-agent，首次 Actions 的 Windows 与 Ubuntu 任务均在收集测试时失败。
+
+### 原因
+
+两个任务的发布输入检查与依赖安装均成功，但 tests/test_structured_chunking.py 导入 structured_document_builder 时缺少 docling_core。开发依赖只声明基础运行依赖和 pytest；本机已有完整 Docling，使旧环境的 210 项测试未暴露这个遗漏。
+
+### 修改
+
+在 aa_my_agent/requirements-dev.txt 中显式固定 docling-core==2.96.0，并说明它只提供结构化文档测试需要的数据类型。保留全部测试与跨平台工作流，不跳过失败测试，不把完整 OCR、Docling 推理或精排权重加入基础安装。README 补充开发依赖与真实 PDF 解析依赖的区别。
+
+### 验证方法
+
+通过 GitHub 连接读取运行 37197651712 的两个任务日志，核对失败步骤与异常。创建临时 Python 3.11.9 隔离解释器，确认 pytest、docling_core、anthropic、chromadb 初始均未安装；仅复用 pip 引导程序，安装声明的开发依赖后执行完整离线测试与发布检查。新环境的解释器路径不包含原 site-packages。
+
+### 实际结果
+
+- 首次远端运行 https://github.com/Six-cry/small-a-agent/actions/runs/37197651712 证实两个平台均因 ModuleNotFoundError: No module named 'docling_core' 中断；Windows 退出码 1，Ubuntu 退出码 2。
+- 修复后的开发依赖在临时隔离 Python 3.11.9 环境中从 PyPI 安装成功；pip check 返回 No broken requirements found。
+- 确认 sys.path 不包含原 PythonEnvs/main311 的 site-packages；完整 Docling、Torch 和 sentence-transformers 均未安装。只安装 docling-core 类型库即可收集并运行结构化文档测试。
+- 隔离环境完整回归：**210 passed, 1 warning，16.67 秒**。警告仍是既有 langchain-community 弃用提示。没有跳过失败测试。
+- 发布输入检查通过，结果见 release_check.json。真实模型、Embedding、PDF/OCR 内容质量和原正式知识索引未参与本次验证。
+
+### 当前状态
+
+修复已在本地公开副本中完成，并通过隔离依赖安装与完整离线测试；远端首次运行仍是失败状态，新的远端结果必须在修复提交上传后确认。原项目业务代码及知识索引未改动。
+
+### 剩余工作
+
+用户提交上传修复后核对 Windows/Linux 新一轮 Actions。Linux 本轮修复后尚未实测，不能由本地 Windows 通过推断；真实服务联调和 PDF 内容质量仍不属于本次依赖修复验证。
